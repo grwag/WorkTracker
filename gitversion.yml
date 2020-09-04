@@ -1,0 +1,16 @@
+﻿assembly-versioning-scheme: MajorMinorPatchTag
+mode: ContinuousDeployment
+next-version: 1.0.0
+commit-message-incrementing: Enabled
+branches:
+  master:
+    increment: Patch
+    track-merge-target: true
+    prevent-increment-of-merged-branch-version: false
+  develop:
+    increment: Minor
+    track-merge-target: true
+    prevent-increment-of-merged-branch-version: false
+ignore:
+  sha: []
+merge-message-formats: {}
