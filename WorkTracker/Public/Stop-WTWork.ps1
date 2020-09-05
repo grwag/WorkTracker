@@ -24,17 +24,14 @@ function Stop-WTWork {
         $IsInPauseMode = ($WorkingEntry.PauseStart -ne 0)
         if ($WhatIfPreference) {
             $WorkingMode = if ($IsInPauseMode) {
-                $PauseDuration = New-TimeSpan -Seconds $WorkingEntry.PauseTotalInSeconds
-                $CurrentPause = (Get-Date) - (Get-Date $WorkingEntry.PauseStart)
-                $TotalPause = ($PauseDuration + $CurrentPause)
-                "PAUSE mode since $($TotalPause.ToString("hh\:mm\:ss"))"
+                "PAUSE"
                 $Color = "Red"
             }
             else {
-                "WORKING mode"
+                "WORKING"
                 $Color = "Green"
             }
-            Write-Host "You are currently in $WorkingMode" -ForegroundColor $Color
+            Write-Host "You are currently in $WorkingMode mode" -ForegroundColor $Color
         }
 
         if($IsInPauseMode -and (-not $WhatIfPreference)){
@@ -43,18 +40,7 @@ function Stop-WTWork {
         }
 
         $WorkingEntry.WorkEnd = $EndTime.Ticks
-        $Total = (Get-Date $EndTime.Ticks) - (Get-Date $WorkingEntry.Start)
-        $TotalWorkTime = $Total - (New-TimeSpan -Seconds $WorkingEntry.PauseTotalInSeconds)
-        $WorkingEntry.TotalWorkTime = $TotalWorkTime.Ticks
-
-        $TotalPause = New-TimeSpan -Seconds $WorkingEntry.PauseTotalInSeconds
-        $WorkingSummary = [PSCustomObject]@{
-            Date          = (Get-Date).ToShortDateString()
-            WorkStart     = (Get-Date $WorkingEntry.Start).ToShortTimeString()
-            WorkEnd       = 0
-            Pause         = $TotalPause.ToString()
-            TotalWorkTime = $TotalWorkTime.ToString()
-        }
+        $WorkingSummary = Get-WTSummary -WorkingEntry $WorkingEntry
         
         if (-not $WhatIfPreference) {
             Write-Verbose "Finishing work day..."
