@@ -1,5 +1,6 @@
 function Resume-WTWork {
     [CmdletBinding()]
+    [Alias('wtres')]
     param (
         
     )
@@ -27,6 +28,7 @@ function Resume-WTWork {
         $WorkingEntry.PauseStart = 0
 
         Set-WTWorkingEntry -WorkingEntry $WorkingEntry
+        Write-Host "Pause ended at $($PauseEnd.ToShortTimeString())" -ForegroundColor Green
     }
     
     end {

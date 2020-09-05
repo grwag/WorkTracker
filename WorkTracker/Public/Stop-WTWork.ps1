@@ -1,5 +1,6 @@
 function Stop-WTWork {
     [CmdletBinding(SupportsShouldProcess = $true)]
+    [Alias('wtstop')]
     param (
         
     )
@@ -20,17 +21,27 @@ function Stop-WTWork {
             return
         }
 
+        $IsInPauseMode = ($WorkingEntry.PauseStart -ne 0)
         if ($WhatIfPreference) {
-            $WorkingMode = if ($WorkingEntry.PauseStart -ne 0) {
-                "PAUSE"
+            $WorkingMode = if ($IsInPauseMode) {
+                $PauseDuration = New-TimeSpan -Seconds $WorkingEntry.PauseTotalInSeconds
+                $CurrentPause = (Get-Date) - (Get-Date $WorkingEntry.PauseStart)
+                $TotalPause = ($PauseDuration + $CurrentPause)
+                "PAUSE mode since $($TotalPause.ToString("hh\:mm\:ss"))"
                 $Color = "Red"
             }
             else {
-                "WORKING"
+                "WORKING mode"
                 $Color = "Green"
             }
-            Write-Host "You are currently in $WorkingMode mode" -ForegroundColor $Color
+            Write-Host "You are currently in $WorkingMode" -ForegroundColor $Color
         }
+
+        if($IsInPauseMode -and (-not $WhatIfPreference)){
+            Resume-WTWork
+            $WorkingEntry = Get-WTWorkingEntry -Date $EndTime.ToShortDateString()
+        }
+
         $WorkingEntry.WorkEnd = $EndTime.Ticks
         $Total = (Get-Date $EndTime.Ticks) - (Get-Date $WorkingEntry.Start)
         $TotalWorkTime = $Total - (New-TimeSpan -Seconds $WorkingEntry.PauseTotalInSeconds)

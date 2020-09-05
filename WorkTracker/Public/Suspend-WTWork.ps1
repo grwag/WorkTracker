@@ -1,5 +1,6 @@
 function Suspend-WTWork {
     [CmdletBinding()]
+    [Alias('wtpause')]
     param (
         
     )
@@ -23,6 +24,7 @@ function Suspend-WTWork {
         $WorkingEntry.PauseStart = $PauseStart.Ticks
 
         Set-WTWorkingEntry -WorkingEntry $WorkingEntry
+        Write-Host "Pause started at $($PauseStart.ToShortTimeString())" -ForegroundColor Red
     }
     
     end {

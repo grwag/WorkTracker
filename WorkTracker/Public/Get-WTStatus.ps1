@@ -1,5 +1,6 @@
 function Get-WTStatus {
     [CmdletBinding()]
+    [Alias('wtstat')]
     param (
         
     )

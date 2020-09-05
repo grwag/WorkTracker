@@ -1,5 +1,6 @@
 function Start-WTWork {
     [CmdletBinding()]
+    [Alias('wtstart')]
     param (
         
     )
@@ -31,6 +32,7 @@ function Start-WTWork {
         }
 
         Set-WTWorkingEntry -WorkingEntry $WorkingEntry
+        Write-Host "Work started at $($StartTime.ToShortTimeString())" -ForegroundColor Green
     }
     
     end {
