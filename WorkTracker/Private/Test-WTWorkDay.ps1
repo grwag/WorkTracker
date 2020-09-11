@@ -5,7 +5,7 @@ function Test-WTWorkDay {
     )
     
     begin {
-        $Date = Get-Date
+        $Date = Get-WTDate
     }
     
     process {

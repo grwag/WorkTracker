@@ -6,7 +6,7 @@ function Start-WTWork {
     )
     
     begin {
-        $StartTime = Get-Date
+        $StartTime = Get-WTDate
     }
     
     process {
@@ -24,11 +24,11 @@ function Start-WTWork {
 
         $WorkingEntry = @{
             Date = $StartTime.ToShortDateString()
-            Start = $StartTime.Ticks
-            PauseStart = 0
-            PauseTotalInSeconds = 0
-            WorkEnd = 0
-            TotalWorkTime = 0
+            Start = $StartTime.ToString("yyyyMMddHHmm")
+            PauseStart = ""
+            PauseTotalInMinutes = 0
+            WorkEnd = ""
+            TotalWorkTime = ""
         }
 
         Set-WTWorkingEntry -WorkingEntry $WorkingEntry

@@ -6,7 +6,7 @@ function Stop-WTWork {
     )
     
     begin {
-        $EndTime = Get-Date
+        $EndTime = Get-WTDate
     }
     
     process {
@@ -16,12 +16,12 @@ function Stop-WTWork {
             return
         }
 
-        if ($WorkingEntry.WorkEnd -ne 0) {
+        if ($WorkingEntry.WorkEnd -ne "") {
             Write-Warning "Yor're already done working...get out of here!!!"
             return
         }
 
-        $IsInPauseMode = ($WorkingEntry.PauseStart -ne 0)
+        $IsInPauseMode = ($WorkingEntry.PauseStart -ne "")
         if ($WhatIfPreference) {
             $WorkingMode = if ($IsInPauseMode) {
                 "PAUSE"
@@ -39,7 +39,7 @@ function Stop-WTWork {
             $WorkingEntry = Get-WTWorkingEntry -Date $EndTime.ToShortDateString()
         }
 
-        $WorkingEntry.WorkEnd = $EndTime.Ticks
+        $WorkingEntry.WorkEnd = $EndTime.ToString("yyyyMMddHHmm")
         $WorkingSummary = Get-WTSummary -WorkingEntry $WorkingEntry
         
         if (-not $WhatIfPreference) {
@@ -50,7 +50,7 @@ function Stop-WTWork {
                 Remove-Item -Path $WorkEntryPath -Force
             }
 
-            $WorkingSummary.WorkEnd = (Get-Date $WorkingEntry.WorkEnd).ToShortTimeString()
+            $WorkingSummary.WorkEnd = [datetime]::ParseExact($WorkingEntry.WorkEnd, "yyyyMMddHHmm", $null)
             Write-Verbose "Adding work to ledger..."
             Add-WTWorkTimeToLedger -WorkingSummary $WorkingSummary
         }

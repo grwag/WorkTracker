@@ -12,13 +12,13 @@ function Get-WTSummary {
     process {
         $TotalPause = Get-WTActualPauseTime -WorkingEntry $WorkingEntry
         
-        $Total = ([datetime] $WorkingEntry.WorkEnd) - ([datetime] $WorkingEntry.Start)
+        $Total = ([datetime]::ParseExact($WorkingEntry.WorkEnd, "yyyyMMddHHmm", $null)) - ([datetime]::ParseExact($WorkingEntry.Start, "yyyyMMddHHmm", $null))
         $TotalWorkTime = $Total - $TotalPause
         $WorkingEntry.TotalWorkTime = $TotalWorkTime.Ticks
 
         $WorkingSummary = [PSCustomObject]@{
             Date          = (Get-Date).ToShortDateString()
-            WorkStart     = (Get-Date $WorkingEntry.Start).ToShortTimeString()
+            WorkStart     = ([datetime]::ParseExact($WorkingEntry.Start, "yyyyMMddHHmm", $null)).ToShortTimeString()
             WorkEnd       = 0
             Pause         = $TotalPause.ToString()
             TotalWorkTime = $TotalWorkTime.ToString()

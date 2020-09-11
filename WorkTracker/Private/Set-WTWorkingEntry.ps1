@@ -13,7 +13,7 @@ function Set-WTWorkingEntry {
     process {
         if($null -ne $WorkingData){
             $ExistingWorkingEntry.PauseStart = $WorkingEntry.PauseStart
-            $ExistingWorkingEntry.PauseTotalInSeconds = $WorkingEntry.PauseTotalInSeconds
+            $ExistingWorkingEntry.PauseTotalInMinutes = $WorkingEntry.PauseTotalInMinutes
             $ExistingWorkingEntry.WorkEnd = $WorkingEntry.WorkEnd
             $ExistingWorkingEntry.TotalWorkTime = $WorkingEntry.TotalWorkTime
             

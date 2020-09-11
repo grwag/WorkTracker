@@ -10,10 +10,28 @@
     Write-Host $Function
     
     .  $Function.FullName
+
+    function Get-WTWorkingEntry {
+        param (
+            [Parameter(Mandatory = $true)]
+            $Date
+        )
+    }
+    function Set-WTWorkingEntry {
+        param (
+            [Parameter(Mandatory = $true)]
+            $WorkingEntry
+        )
+    }
 }
 
 Describe 'Test-Function' {
     It 'no op test' {
-        $true | Should -BeFalse
+        Mock Test-Path { return $true } -ParameterFilter { $Path -eq "something" }
+        Mock Test-Path { return $false } -ParameterFilter { $Path -ne "something" }
+        Mock Get-WTWorkingEntry { return "something" }
+        Mock Set-WTWorkingEntry { }
+
+        Test-WTWorkDay | Should -BeFalse
     }
 }

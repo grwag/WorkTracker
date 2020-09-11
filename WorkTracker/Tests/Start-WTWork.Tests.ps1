@@ -22,6 +22,12 @@
             $WorkingEntry
         )
     }
+
+    function Test-WTWorkDay {
+        param (
+            
+        )
+    }
 }
 
 Describe 'Start-WTWork' {
@@ -29,6 +35,7 @@ Describe 'Start-WTWork' {
         Mock Test-Path { return $true }
         Mock Get-WTWorkingEntry { return "something" }
         Mock Set-WTWorkingEntry { }
+        Mock Test-WTWorkDay { return $false}
 
         Start-WTWork | Should -Be -WarningVariable "Work today already started..."
     }

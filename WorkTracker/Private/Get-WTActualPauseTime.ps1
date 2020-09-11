@@ -10,17 +10,25 @@ function Get-WTActualPauseTime {
     }
     
     process {
-        $IsInPauseMode = ($WorkingEntry.PauseStart -ne 0)
+        $IsInPauseMode = ($WorkingEntry.PauseStart -ne "")
         $CurrentPause = New-TimeSpan
 
-        if($IsInPauseMode){
-            $Date = Get-Date
-            $CurrentPause = ($Date) - ([datetime]$WorkingEntry.PauseStart)
+        Write-Verbose "IsInPauseMode $IsInPauseMode"
+        if ($IsInPauseMode) {
+            $Date = Get-WTDate
+            Write-Verbose "Date $Date"
+            $CurrentPause = ($Date) - [datetime]::ParseExact($WorkingEntry.PauseStart, "yyyyMMddHHmm", $null)
+
+            Write-Verbose "CurrentPause $CurrentPause"
+
         }
         
-        $PauseDuration = New-TimeSpan -Seconds $WorkingEntry.PauseTotalInSeconds
+        $PauseDuration = New-TimeSpan -Minutes $WorkingEntry.PauseTotalInMinutes
+        Write-Verbose "PauseDuration $PauseDuration"
+
         $TotalPause = ($PauseDuration + $CurrentPause)
 
+        Write-Verbose "TotalPause $TotalPause"
         $TotalPause
     }
     

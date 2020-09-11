@@ -9,7 +9,7 @@ function Get-WTLedgerPath {
     }
     
     process {
-        $Date = Get-Date
+        $Date = Get-WTDate
         $Month = (Get-Culture).DateTimeFormat.GetMonthName($Date.Month)
 
         $FileName = $Month + "_" + $Date.Year

@@ -21,7 +21,7 @@ Describe 'Get-WTActualPauseTime' {
             Date = $StartTime.ToShortDateString()
             Start = $StartTime.Ticks
             PauseStart = 0
-            PauseTotalInSeconds = 0
+            PauseTotalInMinutes = 0
             WorkEnd = $EndTime.Ticks
             TotalWorkTime = 0
         }
@@ -38,7 +38,7 @@ Describe 'Get-WTActualPauseTime' {
             Date = $StartTime.ToShortDateString()
             Start = $StartTime.Ticks
             PauseStart = 0
-            PauseTotalInSeconds = 300
+            PauseTotalInMinutes = 5
             WorkEnd = $EndTime.Ticks
             TotalWorkTime = 0
         }
@@ -56,10 +56,10 @@ Describe 'Get-WTActualPauseTime' {
 
         $WrokingEntry = @{
             Date = $StartTime.ToShortDateString()
-            Start = $StartTime.Ticks
-            PauseStart = $PauseStart.Ticks
-            PauseTotalInSeconds = 300
-            WorkEnd = $EndTime.Ticks
+            Start = $StartTime.ToString("yyyyMMddHHmm")
+            PauseStart = $PauseStart.ToString("yyyyMMddHHmm")
+            PauseTotalInMinutes = 5
+            WorkEnd = $EndTime.ToString("yyyyMMddHHmm")
             TotalWorkTime = 0
         }
         

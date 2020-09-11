@@ -12,10 +12,12 @@
     .  $Function.FullName
 }
 
-Describe 'Get-WTLedgerPath' {
-    It 'returns correct path' {
-        Mock Get-Date { return [datetime]637354402200000000 }
+Describe 'Get-WTDate' {
+    It 'returns date without seconds' {
+        $Expected = [datetime]637354390804800369
 
-        Get-WTLedgerPath | Should -BeLike "*\.worktracker\September_2020.csv"
+        Mock Get-Date { return [datetime]637354391234800369 }
+
+        Get-WTDate | Should -Be $Expected
     }
 }

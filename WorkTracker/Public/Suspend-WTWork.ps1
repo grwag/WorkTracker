@@ -6,8 +6,8 @@ function Suspend-WTWork {
     )
     
     begin {
-        $PauseStart = Get-Date
-        $WorkingEntry = Get-WTWorkingEntry -Date (Get-Date).ToShortDateString()
+        $PauseStart = Get-WTDate
+        $WorkingEntry = Get-WTWorkingEntry -Date $PauseStart.ToShortDateString()
     }
     
     process {
@@ -16,12 +16,12 @@ function Suspend-WTWork {
             return
         }
 
-        if($WorkingEntry.PauseStart -ne 0){
+        if($WorkingEntry.PauseStart -ne ""){
             Write-Warning "You're already lazy...get back to work already!!"
             return
         }
 
-        $WorkingEntry.PauseStart = $PauseStart.Ticks
+        $WorkingEntry.PauseStart = $PauseStart.ToString("yyyyMMddHHmm")
 
         Set-WTWorkingEntry -WorkingEntry $WorkingEntry
         Write-Host "Pause started at $($PauseStart.ToShortTimeString())" -ForegroundColor Red
