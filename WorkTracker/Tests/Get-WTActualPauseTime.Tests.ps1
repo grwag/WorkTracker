@@ -10,6 +10,10 @@
     Write-Host $Function
     
     .  $Function.FullName
+
+    function Get-WTDate {
+        
+    }
 }
 
 Describe 'Get-WTActualPauseTime' {
@@ -52,7 +56,7 @@ Describe 'Get-WTActualPauseTime' {
         $EndTime = Get-Date "10/10/2020 00:50"
         $PauseStart = Get-Date "10/10/2020 00:40"
 
-        Mock Get-Date { return $EndTime }
+        Mock Get-WTDate { return $EndTime }
 
         $WrokingEntry = @{
             Date = $StartTime.ToShortDateString()
