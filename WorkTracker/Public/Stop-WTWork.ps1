@@ -50,7 +50,7 @@ function Stop-WTWork {
                 Remove-Item -Path $WorkEntryPath -Force
             }
 
-            $WorkingSummary.WorkEnd = [datetime]::ParseExact($WorkingEntry.WorkEnd, "yyyyMMddHHmm", $null)
+            $WorkingSummary.WorkEnd = [datetime]::ParseExact($WorkingEntry.WorkEnd, "yyyyMMddHHmm", $null).ToShortTimeString()
             Write-Verbose "Adding work to ledger..."
             Add-WTWorkTimeToLedger -WorkingSummary $WorkingSummary
         }
