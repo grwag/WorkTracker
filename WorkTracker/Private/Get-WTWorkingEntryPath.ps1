@@ -10,7 +10,7 @@ function Get-WTWorkingEntryPath {
     }
     
     process {
-        $WorkingEntryPath = Join-Path $env:APPDATA ".worktracker"
+        $WorkingEntryPath = Get-WTWrokDir
         $WorkingEntryPath = Join-Path $WorkingEntryPath ($Date + ".json")
 
         $WorkingEntryPath

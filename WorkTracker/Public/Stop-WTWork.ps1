@@ -53,6 +53,8 @@ function Stop-WTWork {
             $WorkingSummary.WorkEnd = [datetime]::ParseExact($WorkingEntry.WorkEnd, "yyyyMMddHHmm", $null).ToShortTimeString()
             Write-Verbose "Adding work to ledger..."
             Add-WTWorkTimeToLedger -WorkingSummary $WorkingSummary
+
+            Show-WTReminders
         }
 
         $WorkingSummary

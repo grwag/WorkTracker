@@ -15,7 +15,7 @@ function Get-WTLedgerPath {
         $FileName = $Month + "_" + $Date.Year
         $FileName += ".csv"
 
-        $LedgerPath = Join-Path $Env:APPDATA ".worktracker"
+        $LedgerPath = Get-WTWrokDir
         Join-Path $LedgerPath $FileName
     }
     
